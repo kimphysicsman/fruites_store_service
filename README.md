@@ -1,4 +1,4 @@
-# [🍊 fruites_store_service]((https://www.notion.so/kimphysicsman/694ed2006cc44f2f8532339d04d315b3?showMoveTo=true&saveParent=true))
+# [🍊 fruites_store_service](https://www.notion.so/kimphysicsman/694ed2006cc44f2f8532339d04d315b3?showMoveTo=true&saveParent=true)
 과일 쇼핑몰 서비스
 
 <br />
@@ -115,7 +115,8 @@
 <br />
 
 ## 🙏 API 명세서
-https://www.notion.so/kimphysicsman/f326da05d7764060babdafebd0c9d287?v=39854678bcb647e38bcd21a44270ad32
+![image](https://user-images.githubusercontent.com/68724828/190193094-d3ee2acd-7394-4390-983b-dd525caeb74a.png)
+### [자세히 보기](https://www.notion.so/kimphysicsman/f326da05d7764060babdafebd0c9d287?v=39854678bcb647e38bcd21a44270ad32)
 
 <br />
 
