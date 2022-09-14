@@ -96,6 +96,16 @@ def get_total_price(order_obj):
 
 
 def add_price_and_update_order(order_id, price_id):
+    """주문에 상품 가격을 등록하고 총 가격을 수정
+
+    Args:
+        order_id (int): 주문 PK
+        price_id (int): 상품 가격 PK
+
+    Returns:
+        order_obj(OrderModel): 수정된 주문 오브젝트
+    """
+
     order_obj = OrderModel.objects.get(id=order_id)
         
     add_price_at_order(order_obj, price_id)
@@ -107,6 +117,16 @@ def add_price_and_update_order(order_id, price_id):
 
 
 def delete_price_and_update_order(order_id, price_id):
+    """주문에 등록된 상품 가격을 삭제하고 총 가격을 수정
+
+    Args:
+        order_id (int): 주문 PK
+        price_id (int): 상품 가격 PK
+
+    Returns:
+        order_obj(OrderModel): 수정된 주문 오브젝트
+    """
+
     order_obj = OrderModel.objects.get(id=order_id)
         
     delete_price_at_order(order_obj, price_id)

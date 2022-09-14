@@ -24,4 +24,4 @@ class Price(models.Model):
     stock = models.IntegerField("재고", default=0)
 
     def __str__(self):
-        return f"{self.product.name} : {self.unit} - {str(self.price)}"
+        return f"{self.id} - {self.product.name} : {self.unit} - {str(self.price)}"

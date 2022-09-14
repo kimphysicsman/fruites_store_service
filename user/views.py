@@ -20,8 +20,10 @@ class UserView(APIView):
         try:
             user_info = get_user(username)
             return Response(user_info, status=status.HTTP_200_OK)
+        
         except UserModel.DoesNotExist:
             return Response({"error": "유저를 찾을 수 없습니다."}, status=status.HTTP_404_NOT_FOUND)
+        
         except:
             return Response({"error": "유저 조회에 실패했습니다."}, status=status.HTTP_400_BAD_REQUEST)
 
