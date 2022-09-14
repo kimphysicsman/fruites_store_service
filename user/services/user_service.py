@@ -64,13 +64,12 @@ def update_user(user_obj, update_info):
     cur_password = update_info.pop("cur_password", None)
     if not user_obj.check_password(cur_password):
         raise serializers.ValidationError(
-            detail={"error": "현재 비밀번호가 일치하지 않습니다."},
+            detail={"password": "현재 비밀번호가 일치하지 않습니다."},
         )
 
     # 새로운 비밀번호 수정정보에 추가
-    new_password = update_info.pop("new_password", None)
-    if new_password:
-        update_info["password"] = new_password
+    new_password = update_info.pop("new_password", "")
+    update_info["password"] = new_password
 
     user_serializer = UserSerializer(user_obj, data=update_info, partial=True)
     user_serializer.is_valid(raise_exception=True)
@@ -93,7 +92,7 @@ def delete_user(user_obj, password):
     # 현재 비밀번호 일치 여부 확인 코드
     if not user_obj.check_password(password):
         raise serializers.ValidationError(
-            detail={"error": "현재 비밀번호가 일치하지 않습니다."},
+            detail={"password": "현재 비밀번호가 일치하지 않습니다."},
         )
 
     user_obj.is_active = False
