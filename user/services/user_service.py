@@ -27,7 +27,7 @@ def get_user(username):
 
 def create_user(user_info):
     """ 
-        우저 정보로 유저 생성하는 함수
+        유저 정보로 유저 생성하는 함수
 
     Args:
         user_info (dict): 생성할 유저 정보 
@@ -47,7 +47,7 @@ def create_user(user_info):
 
 def update_user(user_obj, update_info):
     """
-        회원 정보 수정 함수
+        유저 정보 수정 함수
     
     Args:
         user_obj (User): 수정할 유저 오브젝트
