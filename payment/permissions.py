@@ -2,7 +2,7 @@ from rest_framework.permissions import BasePermission
 from rest_framework.exceptions import APIException
 from rest_framework import status
 
-from order.models import Order as OrderModel
+from payment.models import Payment as PaymentModel
 
 class GenericAPIException(APIException):
     def __init__(self, status_code, detail=None, code=None):
@@ -11,7 +11,7 @@ class GenericAPIException(APIException):
 
 class IsManagerOrIsAuthorOrIsAuthenticatedReadOnly(BasePermission):
     """
-    관리자는 모두 가능, 작성자는 본인의 주문에 대해서만 모두 가능, 로그인 사용자는 조회, 생성만 가능
+    관리자는 모두 가능, 작성자는 본인의 결제에 대해서만 모두 가능, 로그인 사용자는 조회, 생성만 가능
     """
     SAFE_METHODS = ('GET', 'POST')
     message = '접근 권한이 없습니다.'
@@ -28,21 +28,22 @@ class IsManagerOrIsAuthorOrIsAuthenticatedReadOnly(BasePermission):
         if user.is_authenticated and user.type == "manager":
             return True
 
-        order_id = view.kwargs.get('id', None)
-
-        if order_id:
+        payment_id = view.kwargs.get('id', None)
+        
+        if payment_id:
             try:
-                order_author = OrderModel.objects.get(id=order_id).user
+                payment_author = PaymentModel.objects.get(id=payment_id).order.user
             
-            except OrderModel.DoesNotExist:
+            except PaymentModel.DoesNotExist:
                 response ={
-                        "detail": "주문을 찾을 수 없습니다.",
+                        "detail": "결제을 찾을 수 없습니다.",
                     }
                 raise GenericAPIException(status_code=status.HTTP_404_NOT_FOUND, detail=response)
         else:
-            order_author = user
+            payment_author = user
 
-        if user.is_authenticated and order_author == user:
+
+        if user.is_authenticated and payment_author == user:
             return True
 
         if user.is_authenticated and request.method in self.SAFE_METHODS:

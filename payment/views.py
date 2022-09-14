@@ -10,9 +10,13 @@ from payment.services.payment_service import (
 )
 
 from payment.models import Payment as PaymentModel
+from payment.permissions import IsManagerOrIsAuthorOrIsAuthenticatedReadOnly
+
 
 # 결제 CRUD View
 class PaymentView(APIView):
+    permission_classes = [IsManagerOrIsAuthorOrIsAuthenticatedReadOnly]
+
     # 결제 조회
     def get(self, request, id):
         try:
