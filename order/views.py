@@ -14,9 +14,12 @@ from order.services.order_service import (
 from order.models import Order as OrderModel
 from product.models import Price as PriceModel
 
+from order.permissions import IsManagerOrIsAuthorOrIsAuthenticatedReadOnly
 
 # 주문 CRUD View
 class OrderView(APIView):
+    permission_classes = [IsManagerOrIsAuthorOrIsAuthenticatedReadOnly]
+
     # 주문 조회
     def get(self, request, id):
         try:

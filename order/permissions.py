@@ -2,20 +2,24 @@ from rest_framework.permissions import BasePermission
 from rest_framework.exceptions import APIException
 from rest_framework import status
 
+from order.models import Order as OrderModel
+
 class GenericAPIException(APIException):
     def __init__(self, status_code, detail=None, code=None):
         self.status_code=status_code
         super().__init__(detail=detail, code=code)
 
-class IsManagerOrIsAuthenticatedReadOnly(BasePermission):
+class IsManagerOrIsAuthorOrIsAuthenticatedReadOnly(BasePermission):
     """
-    관리자는 모두 가능, 로그인 사용자는 조회만 가능
+    admin 사용자는 모두 가능, 로그인 사용자는 조회만 가능
     """
-    SAFE_METHODS = ('GET', )
+    SAFE_METHODS = ('GET', 'POST')
     message = '접근 권한이 없습니다.'
 
     def has_permission(self, request, view):
         user = request.user
+
+        order_id = view.kwargs.get('id', None)
 
         if not user.is_authenticated:
             response ={
@@ -25,7 +29,19 @@ class IsManagerOrIsAuthenticatedReadOnly(BasePermission):
 
         if user.is_authenticated and user.type == "manager":
             return True
-            
+
+        try:
+            order_author = OrderModel.objects.get(id=order_id).user
+        
+        except OrderModel.DoesNotExist:
+            response ={
+                    "detail": "주문을 찾을 수 없습니다.",
+                }
+            raise GenericAPIException(status_code=status.HTTP_404_NOT_FOUND, detail=response)
+
+        if user.is_authenticated and order_author == user:
+            return True
+
         if user.is_authenticated and request.method in self.SAFE_METHODS:
             return True
         

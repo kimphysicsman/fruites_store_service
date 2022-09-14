@@ -19,11 +19,11 @@ from product.models import (
     Price as PriceModel
 )
 
-from product.permissions import IsAdminOrIsAuthenticatedReadOnly
+from product.permissions import IsManagerOrIsAuthenticatedReadOnly
 
 # 상품 CRUD View
 class ProductView(APIView):
-    permission_classes = [IsAdminOrIsAuthenticatedReadOnly]
+    permission_classes = [IsManagerOrIsAuthenticatedReadOnly]
 
     # 상품 조회
     def get(self, request, id):
@@ -179,7 +179,7 @@ class ProductView(APIView):
 
 # 가격 CRUD View
 class PriceView(APIView):
-    permission_classes = [IsAdminOrIsAuthenticatedReadOnly]
+    permission_classes = [IsManagerOrIsAuthenticatedReadOnly]
 
     # 가격 조회
     def get(self, request, id):
