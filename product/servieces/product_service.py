@@ -93,7 +93,9 @@ def get_price_list(product_id):
         price_info_list (list): 가격 정보 리스트
     """
 
-    price_obj_list = PriceModel.objects.filter(product__id=product_id)
+    product_obj = ProductModel.objects.get(id=product_id)
+
+    price_obj_list = PriceModel.objects.filter(product=product_obj)
     
     price_info_list = PriceSerializer(price_obj_list, many=True).data
 

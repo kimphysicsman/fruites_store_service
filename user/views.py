@@ -30,6 +30,7 @@ class UserView(APIView):
         try:
             user_obj = create_user(request.data)
             return Response({"success" : "유저 생성 성공"}, status=status.HTTP_200_OK)
+        
         except exceptions.ValidationError as e:
             error_key = list(e.detail.keys())[0]
             error_detail = e.detail.get(error_key, "")
@@ -37,18 +38,22 @@ class UserView(APIView):
             if error_key == "username":
                 if error_detail[0].code == "blank":
                     return Response({"error": "아이디가 빈칸입니다."}, status=status.HTTP_400_BAD_REQUEST) 
+                
                 elif error_detail[0].code == "max_length":
                     return Response({"error": "아이디를 12글자 이하로 작성해주세요."}, status=status.HTTP_400_BAD_REQUEST)
+                
                 elif error_detail[0].code == "unique":
                     return Response({"error": "아이디가 중복되었습니다."}, status=status.HTTP_400_BAD_REQUEST)
         
             elif error_key == "type":
                 if error_detail[0].code == "blank":
                     return Response({"error": "유저 유형이 빈칸입니다."}, status=status.HTTP_400_BAD_REQUEST) 
+                
                 elif error_detail[0].code == "invalid_choice":
                     return Response({"error": "유저 유형이 잘못 선택되었습니다."}, status=status.HTTP_400_BAD_REQUEST)
             
             return Response({"error": "유저 생성 실패"}, status=status.HTTP_400_BAD_REQUEST)
+       
         except:
             return Response({"error": "유저 생성 실패"}, status=status.HTTP_400_BAD_REQUEST)  
     
@@ -70,6 +75,7 @@ class UserView(APIView):
                 try:
                     if error_detail.code == "invalid":
                         return Response({"error": str(error_detail)}, status=status.HTTP_400_BAD_REQUEST) 
+                
                 except:
                     if error_detail[0].code == "blank":
                         return Response({"error": "비밀번호가 빈칸입니다."}, status=status.HTTP_400_BAD_REQUEST) 
@@ -77,6 +83,7 @@ class UserView(APIView):
             elif error_key == "type":
                 if error_detail[0].code == "blank":
                     return Response({"error": "유저 유형이 빈칸입니다."}, status=status.HTTP_400_BAD_REQUEST) 
+                
                 elif error_detail[0].code == "invalid_choice":
                     return Response({"error": "유저 유형이 잘못 선택되었습니다."}, status=status.HTTP_400_BAD_REQUEST)
             
@@ -96,6 +103,8 @@ class UserView(APIView):
         try : 
             if delete_user(user_obj, password):
                 return Response({"success" : "회원 탈퇴 성공"}, status=status.HTTP_200_OK)
+            return Response({"error" : "회원 탈퇴 실패"}, status=status.HTTP_400_BAD_REQUEST)
+        
         except exceptions.ValidationError as e:
             error_key = list(e.detail.keys())[0]
             error_detail = e.detail.get(error_key, "")
