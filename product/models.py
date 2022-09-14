@@ -14,7 +14,7 @@ class Product(models.Model):
     status = models.CharField("판매상태", max_length=20, choices=STATUS_CHOICES, default="ready")
 
     def __str__(self):
-        return self.name
+        return f"{self.id} - {self.name}"
 
 
 class Price(models.Model):
