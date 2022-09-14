@@ -17,9 +17,16 @@ from order.models import Order as OrderModel
 class OrderView(APIView):
     # 주문 조회
     def get(self, request, id):
-        order_info = get_order(id)
-        return Response(order_info, status=status.HTTP_200_OK)
-    
+        try:
+            order_info = get_order(id)
+            return Response(order_info, status=status.HTTP_200_OK)
+        
+        except OrderModel.DoesNotExist:
+            return Response({"error": "주문을 찾을 수 없습니다."}, status=status.HTTP_404_NOT_FOUND)
+
+        except:
+            return Response({"error": "주문 조회에 실패했습니다."}, status=status.HTTP_400_BAD_REQUEST)
+
     # 주문 생성
     def post(self, request):
         user = request.user
