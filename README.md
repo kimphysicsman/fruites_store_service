@@ -1,4 +1,4 @@
-# 🍊 fruites_store_service
+# [🍊 fruites_store_service]((https://www.notion.so/kimphysicsman/694ed2006cc44f2f8532339d04d315b3?showMoveTo=true&saveParent=true))
 과일 쇼핑몰 서비스
 
 <br />
