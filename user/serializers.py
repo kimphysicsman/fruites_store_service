@@ -23,10 +23,10 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Usermodel
-        fields = ["id", "username", "type", "password"
+        fields = ["id", "username", "type", "password", "is_active"
         ]
 
-        # extra_kwargs = {
-        #     'password': {'write_only': True}
-        # }
+        extra_kwargs = {
+            'password': {'write_only': True}
+        }
 
